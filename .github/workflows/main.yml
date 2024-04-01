@@ -36,4 +36,4 @@ jobs:
           }
 
       - name: Run Docker container
-        run: docker run -d -p 5000:5000 --name nodejs_docker-container shailendratrivedi009/nodejs_docker
+        run: docker run -d -p 5000:5000 --name nodejs_docker-container -e PORT="${{ secrets.PORT }}" -e MESSAGE="${{ secrets.MESSAGE }}" shailendratrivedi009/nodejs_docker
