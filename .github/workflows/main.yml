@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -23,7 +23,7 @@ jobs:
         run: docker push shailendratrivedi009/nodejs_docker:latest
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     needs: build
 
