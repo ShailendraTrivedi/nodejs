@@ -7,28 +7,22 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: window-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Log into Docker Hub
-        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-
       - name: Build Docker image
-        run: docker build -t shailendratrivedi009/nodejs_docker:latest .
-
-      - name: Push Docker image to Docker Hub
-        run: docker push shailendratrivedi009/nodejs_docker:latest
+        run: |
+          docker build -t nodejs_docker:latest .
+          touch .env
+          echo "${{ secrets.ENVIRONMENT }}" > .env
 
   deploy:
-    runs-on: self-hosted
+    runs-on: window-latest
 
     steps:
-      - name: Pull Docker image from Docker Hub
-        run: docker pull shailendratrivedi009/nodejs_docker:latest
-
       - name: Delete old container
         run: |
           if (docker ps -a | Select-String "nodejs_docker-container") {
@@ -36,4 +30,4 @@ jobs:
           }
 
       - name: Run Docker container
-        run: docker run -d -p 5000:5000 --name nodejs_docker-container -e PORT="${{ secrets.PORT }}" -e MESSAGE="${{ secrets.MESSAGE }}" shailendratrivedi009/nodejs_docker
+        run: docker run -d -p 5000:5000 --name nodejs_docker-container --env-file .env nodejs_docker:latest
