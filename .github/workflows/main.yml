@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: window-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -20,7 +20,7 @@ jobs:
           echo "${{ secrets.ENVIRONMENT }}" > .env
 
   deploy:
-    runs-on: window-latest
+    runs-on: self-hosted
 
     steps:
       - name: Delete old container
