@@ -27,7 +27,8 @@ jobs:
           }
 
       - name: Create .env file
-        run: echo "${{ secrets.ENVIRONMENT }}" > .env
+        run: echo "${{ secrets.ENVIRONMENT }}" | iconv -f UTF-16LE -t UTF-8 > .env
+
 
       - name: Run Docker container
         run: docker run -d -p 5000:5000 --name nodejs_docker-container --env-file .env nodejs_docker:latest
