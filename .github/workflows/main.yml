@@ -29,6 +29,7 @@ jobs:
       - name: Create .env file
         run: |
           $envContent = "${{ secrets.ENVIRONMENT }}"
+          $envContent = $envContent.Trim()
           $utf8Encoding = New-Object System.Text.UTF8Encoding
           [System.IO.File]::WriteAllLines('.env', $envContent, $utf8Encoding)
 
