@@ -26,5 +26,8 @@ jobs:
             docker rm -f nodejs_docker-container
           }
 
+      - name: Create .env file
+        run: echo "${{ secrets.ENVIRONMENT }}" > .env
+
       - name: Run Docker container
-        run: docker run -d -p 5000:5000 --name nodejs_docker-container -e PORT="${{ secrets.PORT }}" -e MESSAGE="${{ secrets.MESSAGE }}" nodejs_docker:latest
+        run: docker run -d -p 5000:5000 --name nodejs_docker-container --env-file .env nodejs_docker:latest
